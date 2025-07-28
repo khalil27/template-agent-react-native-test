@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   ScrollView,
+  Platform,
 } from 'react-native';
 
 import React, { useEffect } from 'react';
@@ -165,6 +166,15 @@ const AgentTranscriptionText = (props: { text: string }) => {
 
 const SimpleVoiceAssistant = () => {
   const { state, audioTrack } = useVoiceAssistant();
+  
+  if (Platform.OS === 'web') {
+    return (
+      <View style={styles.voiceAssistant}>
+        <Text style={styles.webFallbackText}>Voice Assistant (Web Preview)</Text>
+      </View>
+    );
+  }
+  
   return (
     <BarVisualizer
       state={state}
@@ -186,6 +196,12 @@ const styles = StyleSheet.create({
   voiceAssistant: {
     width: '100%',
     height: 100,
+  },
+  webFallbackText: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#666',
+    marginTop: 40,
   },
   logContainer: {
     width: '100%',

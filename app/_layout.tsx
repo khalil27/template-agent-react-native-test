@@ -9,7 +9,8 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { registerGlobals } from '@livekit/react-native';
+import { registerGlobals } from '@livekit/react-native'
+import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 
 // Do required setup for LiveKit React-Native (only on native platforms)
 if (Platform.OS !== 'web') {
@@ -17,6 +18,7 @@ if (Platform.OS !== 'web') {
 }
 
 export default function RootLayout() {
+  useFrameworkReady();
   const colorScheme = useColorScheme();
 
   return (
