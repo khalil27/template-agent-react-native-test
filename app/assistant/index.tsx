@@ -1,19 +1,33 @@
 import React from 'react';
 import { Platform } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-// Platform-specific imports
+// Lazy load platform-specific components
+const AssistantScreenWeb = React.lazy(() => import('./AssistantScreenWeb'));
 const AssistantScreenNative = Platform.OS !== 'web' 
-  ? require('./AssistantScreenNative').default 
+  ? React.lazy(() => import('./AssistantScreenNative'))
   : null;
 
-const AssistantScreenWeb = Platform.OS === 'web' 
-  ? require('./AssistantScreenWeb').default 
-  : null;
+// Loading fallback component
+function LoadingFallback() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.loadingText}>Loading...</Text>
+    </View>
+  );
+}
 
 export default function AssistantScreen() {
   if (Platform.OS === 'web') {
-    return <AssistantScreenWeb />;
+    return (
+      <React.Suspense fallback={<LoadingFallback />}>
+        <AssistantScreenWeb />
+      </React.Suspense>
+    );
   } else {
-    return <AssistantScreenNative />;
+    return (
+      <React.Suspense fallback={<LoadingFallback />}>
+        <AssistantScreenNative />
+      </React.Suspense>
+    );
   }
-}
