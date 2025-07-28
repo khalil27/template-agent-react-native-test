@@ -3,6 +3,7 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
+import { Platform } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
@@ -10,8 +11,10 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { registerGlobals } from '@livekit/react-native';
 
-// Do required setup for LiveKit React-Native
-registerGlobals();
+// Do required setup for LiveKit React-Native (only on native platforms)
+if (Platform.OS !== 'web') {
+  registerGlobals();
+}
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
